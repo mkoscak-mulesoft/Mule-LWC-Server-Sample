@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="36a7bc4d-4988-4be5-bac2-f3d928445524" >
+		<http:listener-connection host="0.0.0.0" port="${https.port}" protocol="HTTPS">
+			<tls:context >
+				<tls:key-store type="jks" path="keystore.jks" alias="mule" keyPassword="password" password="password" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="7659ac37-84c4-4c67-9652-20f935134597" file="config.properties" />
+	<flow name="lwc-server-sampleFlow" doc:id="e111e422-edc4-4e0f-8867-8354ad72c7aa" >
+		<http:listener doc:name="Listener" doc:id="81100a78-591a-4db9-82f7-9af224c55532" config-ref="HTTP_Listener_config" path="api/account/{account-id}/credit-check"/>
+		<ee:transform doc:name="Transform Message" doc:id="0993e214-11a4-4fad-9fcb-b657a9b94e9a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    "Experian-Score": "750",
+    "TransUnion-Score": "760",
+    "Equifax-Score": "770",
+    "Late-Payments": "0",
+    "Available-Credit": "\$20,000",
+    "Credit-Checks": "0"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="lwc-server-sampleFlow1" doc:id="1537f696-7507-4e22-95c6-9668e588611f" >
+		<http:listener doc:name="Listener" doc:id="143c7ae7-8f5e-4acb-8560-47a2bfc8ea81" config-ref="HTTP_Listener_config" path="api/loan/{loan-id}/payments"/>
+		<ee:transform doc:name="Transform Message" doc:id="9bb82de2-036a-4197-b608-e5d85ccd4420" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+    {
+        "Payment-Date": "2019-01-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "1"
+    },
+    {
+        "Payment-Date": "2019-02-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "2"
+    },
+    {
+        "Payment-Date": "2019-03-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "3"
+    },
+    {
+        "Payment-Date": "2019-04-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "4"
+    },
+    {
+        "Payment-Date": "2019-05-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "5"
+    },
+    {
+        "Payment-Date": "2019-06-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "6"
+    },
+    {
+        "Payment-Date": "2019-07-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "7"
+    },
+    {
+        "Payment-Date": "2019-08-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "8"
+    },
+    {
+        "Payment-Date": "2019-09-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "9"
+    },
+    {
+        "Payment-Date": "2019-10-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "10"
+    },
+    {
+        "Payment-Date": "2019-11-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "11"
+    },
+    {
+        "Payment-Date": "2019-12-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "12"
+    },
+    {
+        "Payment-Date": "2020-01-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "13"
+    },
+    {
+        "Payment-Date": "2020-02-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "14"
+    },
+    {
+        "Payment-Date": "2020-03-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "15"
+    },
+    {
+        "Payment-Date": "2020-04-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "16"
+    },
+    {
+        "Payment-Date": "2020-05-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "17"
+    },
+    {
+        "Payment-Date": "2020-06-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "18"
+    },
+    {
+        "Payment-Date": "2020-07-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "19"
+    },
+    {
+        "Payment-Date": "2020-08-01",
+        "Payment-Amount": "\$1,000",
+        "Payment-Account": "Checking",
+        "Payment-Id": "20"
+    }
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
